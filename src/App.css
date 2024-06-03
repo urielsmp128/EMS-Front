@@ -7,3 +7,11 @@
     text-align: center;
     color: white;
 }
+
+.btn.btn-danger{
+    margin-left: 10px;
+}
+
+.btn.btn-info{
+    margin-left: 10px;;
+}
