@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { listDepartments } from '../services/Department';
+import { deleteDepartmentById, listDepartments } from '../services/Department';
 import { Link, useNavigate } from 'react-router-dom';
 
 const ListDepartmentComponent = () => {
@@ -9,17 +9,29 @@ const ListDepartmentComponent = () => {
     const navigator = useNavigate();
 
     useEffect(() => {
+        listOfDepartments();
+    }, [])
+
+    function listOfDepartments(){
         listDepartments().then((response) => {
             console.log(response);
             setDepartments(response.data)
         }).catch(error => {
             console.error(error)
         })
-
-    }, [])
+    }
 
     function updateDepartment(id){
         navigator(`/edit-department/${id}`)
+    }
+
+    function deleteDepartment(id){
+        deleteDepartmentById(id).then((response) => {
+            console.log(response.data);
+            listOfDepartments();
+        }).catch(error => {
+            console.error(error);
+        })
     }
 
   return (
@@ -44,6 +56,7 @@ const ListDepartmentComponent = () => {
                         <td>{department.departmentDescription}</td>
                         <td>
                             <button onClick={() => updateDepartment(department.id)} className='btn btn-info'>Update</button>
+                            <button onClick={() => deleteDepartment(department.id)} className='btn btn-danger'>Delete</button>
                         </td>
                     </tr>)
                 }
